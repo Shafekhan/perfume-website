@@ -52,32 +52,6 @@ This project introduces a web-based perfume e-commerce application combining tra
 
 ---
 
-## 📁 Project Structure
-
-project-root/
-│
-├── backend/
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ ├── middleware/
-│ └── config/
-│
-├── frontend/
-│ ├── components/
-│ ├── pages/
-│ ├── redux/
-│ ├── routes/
-│ └── App.jsx
-│
-└── README.md
-
-yaml
-Copy
-Edit
-
----
-
 ## 🛠️ Setup Instructions
 
 ### 🔌 Prerequisites
