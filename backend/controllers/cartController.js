@@ -3,7 +3,7 @@ const { CartModel } = require("../models/cartModel");
 // Add new item to cart
 const addNewItemToCart = async (req, res) => {
   const { product, qty = 1 } = req.body;
-  const userId = req.userId; // userId comes from Authentication middleware
+  const userId = req.userId; 
 
   try {
     const isProductPresentInCart = await CartModel.findOne({
@@ -32,7 +32,7 @@ const addNewItemToCart = async (req, res) => {
 
 // Delete cart item
 const deleteCartItem = async (req, res) => {
-  const userId = req.userId; // userId comes from Authentication middleware
+  const userId = req.userId; 
   const cartId = req.params.cartId;
 
   try {
@@ -53,7 +53,7 @@ const deleteCartItem = async (req, res) => {
 
 // Update quantity of cart item
 const updateQtyOfCartItem = async (req, res) => {
-  const userId = req.userId; // userId comes from Authentication middleware
+  const userId = req.userId; 
   const cartId = req.params.cartId;
   const { qty } = req.body;
 
@@ -79,7 +79,7 @@ const updateQtyOfCartItem = async (req, res) => {
 
 // Get all cart items of a user
 const getCartItems = async (req, res) => {
-  const userId = req.userId; // userId comes from Authentication middleware
+  const userId = req.userId; 
 
   try {
     const cartItems = await CartModel.find({ user: userId }).populate("product");

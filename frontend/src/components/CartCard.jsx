@@ -19,7 +19,6 @@ const CartCard = ({
   handleOnClickDeleteCartItem,
   handleOnClickUpdateCartQty,
 }) => {
-  //console.log("cart card: ", product);
   return (
     <Stack
       direction={["column", "column", "row"]}

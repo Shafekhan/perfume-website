@@ -20,7 +20,7 @@ const Authentication = async (req, res, next) => {
     }
 
     if (decoded?.userId) {
-      req.userId = decoded.userId; // safer way
+      req.userId = decoded.userId;
       next();
     } else {
       return res.status(401).json({ message: "Invalid token" });

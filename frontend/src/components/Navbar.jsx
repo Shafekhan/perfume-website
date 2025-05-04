@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -16,6 +15,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import logo from "../assets/perfumate.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,104 +23,135 @@ import { userLogoutActionFn } from "../Redux/authReducer/authAction";
 import { getCartActionFn } from "../Redux/cartReducer/cartAction";
 
 const Navbar = () => {
-  const dipatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+  const { onOpen } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const userData = useSelector((state) => state.authReducer);
   const cartData = useSelector((state) => state.cartReducer.cart);
+
   useEffect(() => {
-    dipatch(getCartActionFn());
+    dispatch(getCartActionFn());
   }, [userData?.isAuth]);
 
-  //console.log("navBar: ", userData);
+  const handleLogout = () => {
+    dispatch(userLogoutActionFn());
+  };
+
   return (
     <Flex
-      w={"100%"}
-      h={"70px"}
-      boxSizing="border-box"
+      w="100%"
+      h="70px"
       px={["2%", "5%", "5%"]}
-      bg={"blue.800"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
-      gap={"7px"}
-      pos={"sticky"}
-      top={"0"}
-      zIndex={"3"}
+      bg="blue.800"
+      alignItems="center"
+      justifyContent="space-between"
+      position="sticky"
+      top="0"
+      zIndex="3"
     >
       <Link to="/">
-        <Image
-          w={["60px", "90px", "90px"]}
-          src={logo}
-          alt="PERFUMATE"
-          border={"5px"}
-        />
+        <Image w={["60px", "90px", "90px"]} src={logo} alt="PERFUMATE" />
       </Link>
 
-      {/* <Box w={["65%", "40%", "40%"]}>
-        <InputGroup>
-          <InputLeftElement children={<SearchIcon color="gray.300" />} />
-          <Input type="text" placeholder="Search here" />
-        </InputGroup>
-      </Box> */}
-      <Flex alignItems={"center"} gap={"1rem"}>
+      <Flex alignItems="center" gap="1rem">
         {userData?.user?.role === "admin" && (
           <Link to="/admindashboard">
-            <Text
-              display={["none", "block", "block"]}
-              color={useColorModeValue("white", "white")}
-            >
+            <Text display={["none", "block"]} color="white">
               Dashboard
             </Text>
           </Link>
         )}
         <Link to="/products">
-          <Text
-            display={["none", "block", "block"]}
-            color={useColorModeValue("white", "white")}
-          >
+          <Text display={["none", "block"]} color="white">
             Products
           </Text>
         </Link>
         <Link to="/cart">
-          <Text
-            display={["none", "block", "block"]}
-            color={useColorModeValue("white", "white")}
-          >
+          <Text display={["none", "block"]} color="white">
             {`Cart(${cartData?.cart?.length || 0})`}
           </Text>
         </Link>
-        <Box display={["none", "block", "block"]}>
+
+        <Box display={["none", "block"]}>
           <Menu>
-            {!userData?.isAuth ? (
-              <Link to="/login">
-                <MenuButton as={Button} colorScheme="blue">
-                  Login
-                </MenuButton>
-              </Link>
-            ) : (
-              <>
-                <MenuButton as={Button} colorScheme="blue">
-                  Profile
-                </MenuButton>
-                <MenuList1 />
-              </>
+            <MenuButton as={Button} colorScheme="blue">
+              {userData?.isAuth ? "Profile" : <Link to="/login">Login</Link>}
+            </MenuButton>
+            {userData?.isAuth && (
+              <MenuList>
+                <MenuGroup title="Profile">
+                  <MenuItem>My Account</MenuItem>
+                  <Link to="/orders">
+                    <MenuItem>My Orders</MenuItem>
+                  </Link>
+                </MenuGroup>
+                <MenuDivider />
+                <MenuGroup title="Danger">
+                  <MenuItem onClick={handleLogout} color="red">
+                    Logout
+                  </MenuItem>
+                </MenuGroup>
+              </MenuList>
             )}
           </Menu>
         </Box>
 
         <Button
-          onClick={() => toggleColorMode()}
-          display={["none", "block", "block"]}
-          p={"0"}
+          onClick={toggleColorMode}
+          display={["none", "block"]}
+          p="0"
+          colorScheme="blue"
         >
-          {colorMode === "light" ? <SunIcon /> : <MoonIcon />}
+          {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
         </Button>
-        <Box onClick={onOpen} display={["block", "none", "none"]} p={"0"}>
+
+        {/* Hamburger for Mobile */}
+        <Box display={["block", "none"]}>
           <Menu>
             <MenuButton as={Button} colorScheme="blue">
               <HamburgerIcon />
             </MenuButton>
-            <MobileMenu />
+            <MenuList>
+              <MenuGroup title="Move to">
+                {userData?.user?.role === "admin" && (
+                  <Link to="/admindashboard">
+                    <MenuItem>Dashboard</MenuItem>
+                  </Link>
+                )}
+                <Link to="/products">
+                  <MenuItem>Products</MenuItem>
+                </Link>
+                <Link to="/cart">
+                  <MenuItem>Cart({`${cartData?.cart?.length || 0}`})</MenuItem>
+                </Link>
+                <Link to="/orders">
+                  <MenuItem>My Orders</MenuItem>
+                </Link>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup title="Profile">
+                {userData?.isAuth ? (
+                  <MenuItem onClick={handleLogout} color="red">
+                    Logout
+                  </MenuItem>
+                ) : (
+                  <>
+                    <Link to="/login">
+                      <MenuItem>Login</MenuItem>
+                    </Link>
+                    <Link to="/signup">
+                      <MenuItem>Signup</MenuItem>
+                    </Link>
+                  </>
+                )}
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup title="Theme">
+                <MenuItem onClick={toggleColorMode}>
+                  {colorMode === "dark" ? "Light" : "Dark"} Theme
+                </MenuItem>
+              </MenuGroup>
+            </MenuList>
           </Menu>
         </Box>
       </Flex>
@@ -129,82 +160,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-function MenuList1() {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    dispatch(userLogoutActionFn());
-  };
-  return (
-    <MenuList>
-      <MenuGroup title="Profile">
-        <MenuItem>My Account</MenuItem>
-        <Link to="/orders">
-          <MenuItem>My Orders</MenuItem>
-        </Link>
-      </MenuGroup>
-      <MenuDivider />
-      <MenuGroup title="Danger">
-        <MenuItem onClick={handleLogout} color={"red"}>
-          Logout
-        </MenuItem>
-      </MenuGroup>
-    </MenuList>
-  );
-}
-
-function MobileMenu() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.authReducer);
-  const cartData = useSelector((state) => state.cartReducer.cart);
-
-  const handleLogout = () => {
-    dispatch(userLogoutActionFn());
-  };
-  return (
-    <MenuList>
-      <MenuGroup title="Move to">
-        {userData?.user.role === "admin" && (
-          <Link to="/admindashboard">
-            <MenuItem>Dashboard</MenuItem>
-          </Link>
-        )}
-        <Link to="/products">
-          <MenuItem>Products</MenuItem>
-        </Link>
-        <Link to="/cart">
-          <MenuItem>Cart({`${cartData?.cart?.length || 0}`})</MenuItem>
-        </Link>
-        <Link to="/orders">
-          <MenuItem>My Orders</MenuItem>
-        </Link>
-      </MenuGroup>
-      <MenuDivider />
-      <MenuGroup title="Profile">
-        {userData?.isAuth ? (
-          <MenuItem onClick={handleLogout} color={"red"}>
-            Logout
-          </MenuItem>
-        ) : (
-          <>
-            <Link to="/login">
-              <MenuItem>Login</MenuItem>
-            </Link>
-            <Link to="/signup">
-              <MenuItem>Signup</MenuItem>
-            </Link>
-          </>
-        )}
-      </MenuGroup>
-
-      <MenuDivider />
-      <MenuGroup title="Theme">
-        <MenuItem onClick={toggleColorMode}>
-          {colorMode === "dark" ? "Light" : "Dark"} Theme
-        </MenuItem>
-      </MenuGroup>
-    </MenuList>
-  );
-}

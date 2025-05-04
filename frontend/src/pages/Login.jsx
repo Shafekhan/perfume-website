@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userLoginActionFn } from "../Redux/authReducer/authAction";
+import { metamaskLoginActionFn } from "../Redux/authReducer/authAction";
+
 
 const loginData = {
   email: "",
@@ -141,6 +143,39 @@ export default function Login() {
               >
                 {data.isLoading ? <Spinner /> : "Sign in"}
               </Button>
+
+              <Button
+                onClick={() =>
+                  dispatch(metamaskLoginActionFn()).then((res) => {
+                    if (res.type === "USER_LOGIN_SUCCESS") {
+                      toast({
+                        title: "MetaMask Login",
+                        description: "Login Successful",
+                        status: "success",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                      });
+                      navigate("/", { replace: true });
+                    } else {
+                      toast({
+                        title: "MetaMask Login",
+                        description: res.payload,
+                        status: "error",
+                        position: "top",
+                        duration: 2000,
+                        isClosable: true,
+                      });
+                    }
+                  })
+                }
+                bg="purple.500"
+                color="white"
+                _hover={{ bg: "purple.600" }}
+              >
+                {data.isLoading ? <Spinner /> : "Sign in with MetaMask"}
+            </Button>
+
             </Stack>
             {data.isError && <Box as={"span"}>Something went wrong.</Box>}
             <Text>

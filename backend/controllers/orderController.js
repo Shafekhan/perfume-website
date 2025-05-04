@@ -3,23 +3,25 @@ const { CartModel } = require("../models/cartModel");
 
 // Get all orders of a specific user
 const getOrdersOfUser = async (req, res) => {
-  const userId = req.userId; // getting from middleware
+  const userId = req.userId;
 
   try {
     const allorders = await OrderModel.find({ user: userId }).populate("product");
-    res.status(200).json({ order: allorders });
+    const validOrders = allorders.filter((order) => order.product !== null);
+
+    res.status(200).json({ order: validOrders });
   } catch (err) {
     res.status(500).json({ message: "Server error, please try again!", err: err.message });
   }
 };
 
-// Get all orders (admin panel)
+
 const getAdminAllOrders = async (req, res) => {
   try {
     const allorders = await OrderModel.find()
       .populate("product")
       .populate("address")
-      .populate("user", "name email role"); // select only name, email, role from user
+      .populate("user", "name email role"); 
     res.status(200).json({ order: allorders });
   } catch (err) {
     res.status(500).json({ message: "Server error, please try again!", err: err.message });
@@ -28,7 +30,7 @@ const getAdminAllOrders = async (req, res) => {
 
 // Add a new order
 const addNewOrder = async (req, res) => {
-  const userId = req.userId; // getting from middleware
+  const userId = req.userId; 
   const { address, deliveryAt } = req.body;
 
   try {

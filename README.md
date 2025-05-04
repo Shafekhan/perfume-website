@@ -1,62 +1,125 @@
-# perfumate
-### Perfumate: Elegant ecommerce for branded perfumes. Built on MERN Stack, it offers a seamless shopping experience with captivating fragrances and robust functionalities.
+# 🌸 Online Perfume Store with MetaMask Authentication and Hybrid Checkout
 
-## 💻 Tech Stack:
-### Frontend
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Chakra ui](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white) ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white) ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)  ![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white)  
+An advanced e-commerce perfume platform built using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js) with **MetaMask-based blockchain authentication**. This project is designed to bridge modern web2 and web3 experiences in online shopping.
 
-### Backend
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) 
- ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-  ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) 
-![NPM](https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white) 
-### Deployed on
-![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+---
 
-## Features
- - 🚀 Users
-   - Login and Signup User Account
-   - JWT( JSON WEB TOKEN) Authentication BcryptJs password Hashing
-   - Product Sorting Based on Price,and Brand
-   - Cart Add and Remove Items
-   - Cart Update Quantities
-   - Cart page for managing Cart
-   - Manage orders for details of all ordered item
-   - Address Management
+## 🧾 Abstract
 
-- 🚀 Admin Features
-  - All Cart Item Data
-  - All orders Data
-  - Orders Status Update
-  - All Users Data
-  - Cancel Order data
+This project introduces a web-based perfume e-commerce application combining traditional authentication and modern blockchain wallet login using **MetaMask**. Users can securely log in with either their email/password or Ethereum wallet (MetaMask). The site features a complete product browsing and checkout experience using **Razorpay** for INR payments, while future updates will support NFT-based perfume products and crypto transactions.
 
-# User Section
-## Homepage (Hero images top `Brands` Best sellers `Products`)
-![Screenshot (627)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/e4755a5a-10db-4445-9f24-f970b16967ef)
+---
 
-## Productspage (Filter by `Brand` sort by `price`)
-![Screenshot (629)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/dc02895c-4414-429a-bed0-8f67240ffd3f)
+## 🚀 Features
 
-## Cartpage (Products in cart with `CRUD`, Price summary & Delivery Address `Add` & `Change`, `ORDER` Button)
-![Screenshot (630)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/045081cc-6ab4-4413-8145-a85be72cbc02)
+- 🔐 **User Authentication**
+  - Email/password authentication using JWT
+  - MetaMask login for web3 wallet-based authentication
 
-## Order page (Can see all orfers & `CANCEL` order)
-![Screenshot (631)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/97cc726c-1b4f-4100-aba9-0fb09880849b)
+- 🛍️ **E-commerce Functionality**
+  - Browse perfumes by category
+  - Product details, add to cart, wishlist
+  - Checkout and order confirmation
 
-## Signup page(Email should be `Unique`, name and password)
-![Screenshot (636)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/41dcd2ca-ddc7-4d27-b2cc-e0f23208da64)
+- 💳 **Payment System**
+  - Razorpay integration for secure INR-based checkout
+  - Crypto checkout planned for future implementation
 
-## Login page
-![Screenshot (635)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/61217974-af8e-4012-b610-d89b1b3376f8)
+- 📦 **Order & Cart Management**
+  - Add/remove items to cart
+  - View order history per user
 
-# Admin Section
-## All user page (name,email, role & role switch functionality)
-![Screenshot (632)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/6f7bdd14-4390-41d9-bef1-badf029f48ad)
+- 🧑‍💼 **Admin Dashboard**
+  - Manage products, users, and orders
 
-## All product overview page
-![Screenshot (633)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/ab5372d4-d17c-4ac7-865e-66ee7b711c28)
+---
 
-## Orders (with product title, address unique id, user, status, order qty, update status functionality)
-![Screenshot (637)](https://github.com/Sahnawaz7hussain/perfumate/assets/101489367/070b3e5c-6e43-4101-ab82-1461b4f0dd4c)
+## 🧱 Tech Stack
+
+### 🌐 Frontend
+- React.js + Vite
+- Chakra UI
+- Redux Toolkit
+- React Router
+- Web3.js / Ethers.js for MetaMask integration
+
+### 🔧 Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT-based authentication
+- Razorpay Payment Gateway
+
+---
+
+## 📁 Project Structure
+
+project-root/
+│
+├── backend/
+│ ├── controllers/
+│ ├── models/
+│ ├── routes/
+│ ├── middleware/
+│ └── config/
+│
+├── frontend/
+│ ├── components/
+│ ├── pages/
+│ ├── redux/
+│ ├── routes/
+│ └── App.jsx
+│
+└── README.md
+
+yaml
+Copy
+Edit
+
+---
+
+## 🛠️ Setup Instructions
+
+### 🔌 Prerequisites
+
+- Node.js and npm
+- MongoDB (local or cloud)
+- MetaMask extension in browser
+
+---
+
+### ⚙️ Backend Setup
+
+```bash
+cd backend
+npm install
+npm run dev
+Create a .env file in /backend with the following:
+
+ini
+Copy
+Edit
+MONGO_URI=<your-mongodb-connection-string>
+JWT_SECRET=<your-secret>
+RAZORPAY_KEY_ID=<your-razorpay-key-id>
+RAZORPAY_SECRET=<your-razorpay-secret>
+🌐 Frontend Setup
+bash
+Copy
+Edit
+cd frontend
+npm install
+npm run dev
+Make sure MetaMask is installed in your browser and set to a valid Ethereum network.
+
+🔗 MetaMask Authentication
+On login page, user can click “Login with MetaMask”
+
+Ethereum address is used to identify the user
+
+Ethers.js is used to request wallet access and sign a message
+
+Authenticated wallet users are stored in MongoDB as web3 users
+
+📃 License
+This project is open-source under the MIT License.

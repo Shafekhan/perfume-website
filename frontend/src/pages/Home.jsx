@@ -11,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import firstImg from "../assets/1.jpg";
-import secondImg from "../assets/2.jpg";
 import thirdImg from "../assets/3.jpg";
 import { Link } from "react-router-dom";
 import Card from "../components/Home/Card";
@@ -51,56 +50,56 @@ const Home = () => {
   const bestSellers = [
     {
       _id: "647a04dd55005266a0b7ad7f",
-      title: "Chanel Coco Mademoiselle",
-      price: 150,
-      brand: "Chanel",
+      title: "Asad",
+      price: 1800,
+      brand: "Rasasi",
       imgUrl:
-        "https://cdn.shopify.com/s/files/1/0534/6279/4417/products/chanel-coco-mademoiselle_669x669.png",
+        "https://fragstalk.in/wp-content/uploads/2022/07/Lattafa-Asad-Perfume-100ML-EDP.png",
     },
     {
       _id: "647a04dd55005266a0b7ad9a",
-      title: "NAUTICA Aua Rush Toilette",
-      price: 2800,
-      brand: "Nautica",
+      title: "Oud & Roses",
+      price: 3000,
+      brand: "Ahmed Al Maghribi",
       imgUrl:
-        "https://rukminim1.flixcart.com/image/416/416/xif0q/perfume/k/5/q/-original-imaggavzpduzhse6.jpeg",
+        "https://www.ahmedalmaghribi.co.in/wp-content/uploads/2021/10/Artboard-74-min.png",
     },
     {
       _id: "647a04dd55005266a0b7ad85",
-      title: "Gucci Guilty",
-      price: 120,
-      brand: "Gucci",
+      title: "Asad Bourbon",
+      price: 1800,
+      brand: "Lattafa",
       imgUrl:
-        "https://cdn.shopify.com/s/files/1/0305/1601/9337/products/142414_img-5819-givenchy-l-interdit-2020-eau-de-parfum-intense_720_1024x1024.jpg",
+        "https://fragstalk.in/wp-content/uploads/2025/02/Lattafa-Asad-Bourbon.png",
     },
     {
       _id: "647a04dd55005266a0b7ad97",
-      title: "Nautica Voyage",
-      price: 100,
-      brand: "Nautica",
+      title: "Wisal Dhahab",
+      price: 2700,
+      brand: "Ajmal",
       imgUrl:
-        "https://www.aarfragrances.com/public/uploads/all/84q43QFF4sE2ZiaxRPaHR273KJZvKsWnrKYke2g4.jpg",
+        "https://fragstalk.in/wp-content/uploads/2024/09/Ajmal-Wisal-Dhahab-1.png",
     },
   ];
   const topBrands = [
     {
       imgUrl:
-        "https://media.gucci.com/style/White_South_0_160_316x316/1674865031/729160_99999_0099_002_100_0000_Light-Gucci-Bloom-Eau-de-Parfum-Intense-100ml.jpg",
-      brand: "Gucci",
+        "https://fragstalk.in/wp-content/uploads/2022/07/Qaed-al-fursan-lattafa-90ml-EDP.png?_gl=1*b9rjv9*_up*MQ..*_gs*MQ..&gclid=Cj0KCQjwlMfABhCWARIsADGXdy_kpSrY74WYdI1_3rE55d9fD-0_CvuZAIQXi8sX2buZtNvEmnuCJpYaAjNVEALw_wcB&gbraid=0AAAAADOQR7_iZ7fHHPc40YaQbBWayqN4m",
+      brand: "Lattafa",
     },
     {
       imgUrl:
-        "https://cdn.shopify.com/s/files/1/0507/4501/6476/products/chanel_no_5_450x450.jpg",
-      brand: "Chanel",
+        "https://fragstalk.in/wp-content/uploads/2025/04/Ahmed-Al-Maghribi-Ahl.png",
+      brand: "Ahmed Al Maghribi",
     },
     {
       imgUrl:
-        "https://www.aarfragrances.com/public/uploads/all/84q43QFF4sE2ZiaxRPaHR273KJZvKsWnrKYke2g4.jpg",
-      brand: "Nautica",
+        "https://fragstalk.in/wp-content/uploads/2024/09/Ajmal-Wisal-Dhahab-perfume-1.png",
+      brand: "Ajmal",
     },
     {
-      imgUrl: "https://m.media-amazon.com/images/I/51kABSdV3VL._AC_UL320_.jpg",
-      brand: "Versace",
+      imgUrl: "https://fragstalk.in/wp-content/uploads/2024/10/Rasasi-Hawas-Black.png",
+      brand: "Rasasi",
     },
   ];
 
@@ -137,7 +136,6 @@ const Home = () => {
   return (
     <Box boxSizing="border-box" px={["2%", "5%", "5%"]}>
       <HeroImg image={firstImg} />
-      <HeroImg image={secondImg} />
       <br />
       <Text fontSize={"2xl"}>Top Brands</Text>
       <SimpleGrid

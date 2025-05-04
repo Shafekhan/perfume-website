@@ -20,7 +20,7 @@ const FlexContainer = ({ keyy, value }) => {
 };
 
 const Address = ({ address }) => {
-  //  console.log("pricing: cart: ", address);
+
   return (
     <Stack spacing={3} w={"100%"} border={"1px solid lightgray"} p={2}>
       <FlexContainer keyy={"Fullname"} value={address?.fullname} />

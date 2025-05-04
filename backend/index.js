@@ -13,8 +13,19 @@ const PORT = process.env.PORT;
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for Vite frontend server
+const corsOptions = {
+  origin: "http://localhost:5173", // Vite dev server
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
+
+// Middleware for JSON parsing
 app.use(express.json());
+
+// Test route to ensure server is running
 app.get("/", (req, res) => {
   res.status(200).json("Welcome to homepage..");
 });
@@ -41,5 +52,3 @@ app.listen(PORT, async () => {
     });
   }
 });
-
-// test comment

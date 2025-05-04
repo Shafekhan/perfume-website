@@ -16,6 +16,7 @@ const UserSchema = new mongoose.Schema(
       minLength: 6,
     },
     role: { type: String, default: "user" },
+    walletAddress: { type: String, unique: true, sparse: true }
   },
   { versionKey: false }
 );

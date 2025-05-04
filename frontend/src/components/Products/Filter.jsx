@@ -20,13 +20,12 @@ const Filter = ({ handleOnChangeBrand, handleRadioSort, brand, sort }) => {
         borderRadius={"10"}
       ></Box>
       <CheckboxGroup onChange={handleOnChangeBrand} defaultValue={brand}>
-        <Stack spacing={1}>
-          <Checkbox value="Gucci">Gucci</Checkbox>
-          <Checkbox value="Chanel">Chanel</Checkbox>
-          <Checkbox value="Versace">Versace</Checkbox>
-          <Checkbox value="Givenchy">Givenchy</Checkbox>
-          <Checkbox value="Nautica">Nautica</Checkbox>
-        </Stack>
+      <Stack spacing={1}>
+        <Checkbox value="Ahmed Al Maghribi">Ahmed Al Maghribi</Checkbox>
+        <Checkbox value="Ajmal">Ajmal</Checkbox>
+        <Checkbox value="Lattafa">Lattafa</Checkbox>
+        <Checkbox value="Rasasi">Rasasi</Checkbox>
+      </Stack>
       </CheckboxGroup>
       <Heading size={["sm", "md", "md"]} mt={5} mb={2}>
         Sort By Price

@@ -14,6 +14,7 @@ const createRazorpayOrder = async (req, res) => {
       amount: amount, // amount in paise
       currency: "INR",
       receipt: `receipt_order_${Math.floor(Math.random() * 1000000)}`,
+
     };
 
     const order = await razorpayInstance.orders.create(options);

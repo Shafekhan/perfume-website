@@ -13,10 +13,14 @@ const Pricing = ({ cart }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
     let newPrice = cart?.cart?.reduce((acc, curr) => {
-      return acc + curr.qty * curr.product.price;
+      if (curr?.product?.price != null && curr?.qty != null) {
+        return acc + curr.qty * curr.product.price;
+      }
+      return acc;
     }, 0);
     setTotalPrice(newPrice);
-  });
+  }, [cart]);
+  
 
   //console.log("pricing: cart: ", cart, "  totalprice ;", totalPrice);
   return (

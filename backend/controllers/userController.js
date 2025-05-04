@@ -1,9 +1,12 @@
 const { UserModel } = require("../models/userModel");
+const { verifyMessage } = require("ethers");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.SECRET;
+const nonces = {}; 
+
 
 // SIGNUP USER
 const signup = async (req, res) => {
@@ -85,4 +88,81 @@ const updateUserRole = async (req, res) => {
     });
   }
 };
-module.exports = { signup, login, getAllUser, updateUserRole };
+
+const getNonce = async (req, res) => {
+  const { walletAddress } = req.body;
+
+  if (!walletAddress) {
+    return res.status(400).json({ message: "Wallet address is required" });
+  }
+
+  try {
+    const nonce = `Login to PerfumeStore: ${Math.floor(Math.random() * 1000000)}`;
+    nonces[walletAddress.toLowerCase()] = nonce; 
+
+    return res.status(200).json({ nonce });
+  } catch (err) {
+    return res.status(500).json({ message: "Something went wrong", err: err.message });
+  }
+};
+
+
+// METAMASK LOGIN
+const metamaskLogin = async (req, res) => {
+  const { walletAddress, signature } = req.body;
+
+  if (!walletAddress || !signature) {
+    return res.status(400).json({ message: "Wallet address and signature are required" });
+  }
+
+  const nonce = nonces[walletAddress.toLowerCase()];
+
+  if (!nonce) {
+    return res.status(400).json({ message: "Nonce not found for wallet address" });
+  }
+
+  try {
+    const signerAddress = verifyMessage(nonce, signature);
+
+    if (signerAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+      return res.status(401).json({ message: "Signature verification failed" });
+    }
+
+    delete nonces[walletAddress.toLowerCase()]; 
+
+    let user = await UserModel.findOne({ walletAddress: walletAddress.toLowerCase() });
+
+    if (!user) {
+      user = new UserModel({
+        name: "Metamask User",
+        email: `${walletAddress}@metamaskuser.com`,
+        password: "blockchain_auth",
+        walletAddress: walletAddress.toLowerCase(),
+      });
+
+      await user.save();
+    }
+
+    const token = jwt.sign({ userId: user._id }, secret);
+
+    return res.status(200).json({
+      message: "Login Success",
+      user: {
+        token,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        walletAddress: user.walletAddress,
+      },
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      message: "Something went wrong",
+      err: err.message,
+    });
+  }
+};
+
+
+module.exports = { signup, login, getAllUser, updateUserRole, metamaskLogin, getNonce };
