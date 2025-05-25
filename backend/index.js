@@ -1,54 +1,81 @@
 const express = require("express");
-require("dotenv").config();
 const cors = require("cors");
-const connectDatabase = require("./config/db");
-const { userRouter } = require("./routers/userRouter");
-const { cartRouter } = require("./routers/cartRouter");
-const { productRouter } = require("./routers/productRouter");
-const { addressRouter } = require("./routers/addressRouter");
-const { Authentication } = require("./middleware/authentication");
-const { orderRouter } = require("./routers/orderRouter");
-const paymentRouter = require("./routers/paymentRouter");
-const PORT = process.env.PORT;
+const dotenv = require("dotenv");
+const Razorpay = require("razorpay");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const path = require("path");
 
+// Load environment variables
+dotenv.config();
+
+// App setup
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// CORS configuration for Vite frontend server
+// Allow local + deployed frontend access
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://perfume-website-sandy.vercel.app", // ⬅️ Change this to your actual Vercel URL
+];
+
 const corsOptions = {
-  origin: "http://localhost:5173", // Vite dev server
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
   methods: ["GET", "POST", "PATCH", "DELETE"],
-  credentials: true, 
 };
 
-app.use(cors(corsOptions));
-
-// Middleware for JSON parsing
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://perfume-website-sandy.vercel.app'],
+  credentials: true,
+}));
 app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Test route to ensure server is running
-app.get("/", (req, res) => {
-  res.status(200).json("Welcome to homepage..");
+// Razorpay instance
+const razorpayInstance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// HANDLING ROUTERS
-app.use("/user", userRouter);
-app.use("/cart", Authentication, cartRouter);
-app.use("/product", productRouter);
-app.use("/address", Authentication, addressRouter);
-app.use("/order", Authentication, orderRouter);
-app.use("/payment", paymentRouter);
+// MongoDB connection
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// LISTENING TO SERVER
-app.listen(PORT, async () => {
-  try {
-    console.log("connecting with database...");
-    await connectDatabase();
-    console.log("connected with database.");
-    console.log(`server running at port:${PORT}`);
-  } catch (err) {
-    console.log({
-      message: "unable to connect with database",
-      err: err.message,
-    });
-  }
+// Import routers (destructuring from module.exports)
+const { userRouter } = require("./routers/userRouter");
+const { productRouter } = require("./routers/productRouter");
+const { cartRouter } = require("./routers/cartRouter");
+const { orderRouter } = require("./routers/orderRouter");
+const paymentRouter  = require("./routers/paymentRouter");
+
+// Use routers
+app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
+app.use("/api/cart", cartRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/payment", paymentRouter);
+
+// Default route
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
