@@ -14,28 +14,32 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Allow local + deployed frontend access
+// Allowed frontend origins
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://perfume-website-sandy.vercel.app", // ⬅️ Change this to your actual Vercel URL
+  "https://perfume-website-sandy.vercel.app", // Your deployed frontend URL
 ];
 
+// CORS options
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (e.g. mobile apps, curl)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error("CORS policy: This origin is not allowed"));
     }
   },
   credentials: true,
-  methods: ["GET", "POST", "PATCH", "DELETE"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 };
 
-app.use(cors({
-  origin: ['http://localhost:5173', 'https://perfume-website-sandy.vercel.app'],
-  credentials: true,
-}));
+// Use CORS middleware with options
+app.use(cors(corsOptions));
+
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -56,12 +60,12 @@ mongoose
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Import routers (destructuring from module.exports)
+// Import routers
 const { userRouter } = require("./routers/userRouter");
 const { productRouter } = require("./routers/productRouter");
 const { cartRouter } = require("./routers/cartRouter");
 const { orderRouter } = require("./routers/orderRouter");
-const paymentRouter  = require("./routers/paymentRouter");
+const paymentRouter = require("./routers/paymentRouter");
 
 // Use routers
 app.use("/api/users", userRouter);
